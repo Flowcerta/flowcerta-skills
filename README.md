@@ -21,8 +21,13 @@ CLI on the machine:
 
 ```
 npx @flowcerta/cli --version        # no install, per-platform binary
-dotnet tool install -g flowcerta    # needs .NET 8, much smaller
 ```
+
+On Windows, PowerShell may answer that `npm.ps1` is not digitally signed. That is
+the machine's execution policy refusing a shim Node ships unsigned, not anything to
+do with this package. `npx.cmd` and `flowcerta.cmd` are not scripts as far as the
+policy is concerned and work as they are; cmd.exe, Git Bash and WSL never see the
+problem.
 
 Analysis runs locally. Workflow files never leave the machine, and nothing is
 uploaded unless your organisation turned on provenance reporting, which the skill

@@ -10,10 +10,18 @@ You can produce a working automation faster than a human can review one. This
 skill is how you check your own work against the rules the project is actually
 held to, before anyone else sees it.
 
-Install is one of:
+Install:
 
     npx @flowcerta/cli --version
-    dotnet tool install -g flowcerta
+
+On Windows, if PowerShell answers that `npm.ps1` is not digitally signed, the
+machine's execution policy is refusing the shim rather than refusing us. Use the
+`.cmd` beside it, which the policy does not apply to:
+
+    npx.cmd @flowcerta/cli --version
+
+Every command below works the same way: `flowcerta.cmd` where `flowcerta` is
+refused. cmd.exe, Git Bash and WSL are unaffected.
 
 ## Start here
 
