@@ -1,6 +1,6 @@
 ---
 name: flowcerta-govern
-description: "Governance gate for RPA automations — UiPath (.xaml), Power Automate, Automation Anywhere, Blue Prism. Run `flowcerta context` when starting work in a repository that has workflows; use BEFORE writing or editing any workflow to load the project's policy, and AFTER every edit to gate it. Analysis runs locally; workflow files never leave the machine."
+description: "Policy gate for UiPath automations (.xaml). Run `flowcerta context` when starting work in a repository that has workflows; use BEFORE writing or editing any workflow to load the project's policy, and AFTER every edit to gate it. Analysis runs locally; workflow files never leave the machine."
 allowed-tools: Bash, Read, Edit, Glob, Grep
 ---
 
@@ -10,18 +10,29 @@ You can produce a working automation faster than a human can review one. This
 skill is how you check your own work against the rules the project is actually
 held to, before anyone else sees it.
 
-Install:
+Install it once, so that `flowcerta` is a command:
 
-    npx @flowcerta/cli --version
+    npm install -g @flowcerta/cli
+    flowcerta --version
+
+Every command below is written as a bare `flowcerta`, and a bare `flowcerta` only
+exists after an install. `npx @flowcerta/cli --version` runs it without installing,
+but leaves nothing on PATH, and the commands that follow would then fail with
+"command not found". It is also about two seconds slower per call, which adds up
+when you gate after every edit.
+
+If you cannot install globally, either install it into the project
+(`npm install --save-dev @flowcerta/cli`) and prefix each command with `npx`, or
+prefix each command with `npx @flowcerta/cli` in place of `flowcerta`.
 
 On Windows, if PowerShell answers that `npm.ps1` is not digitally signed, the
 machine's execution policy is refusing the shim rather than refusing us. Use the
 `.cmd` beside it, which the policy does not apply to:
 
-    npx.cmd @flowcerta/cli --version
+    npm.cmd install -g @flowcerta/cli
 
-Every command below works the same way: `flowcerta.cmd` where `flowcerta` is
-refused. cmd.exe, Git Bash and WSL are unaffected.
+and then `flowcerta.cmd` where `flowcerta` is refused. cmd.exe, Git Bash and WSL
+are unaffected.
 
 ## Start here
 
@@ -204,6 +215,11 @@ types into a terminal are outside it, and the files are editable like any other
 file in the repository.
 
 ## What this does not do
+
+`gate` judges UiPath workflows (`.xaml`) only. Power Automate flows are checked when
+they are uploaded to the Flowcerta dashboard, not by this command, and Automation
+Anywhere and Blue Prism are not checked yet. If you are editing one of those, this
+skill cannot tell you whether it passes; say so rather than reporting a clean gate.
 
 It reads workflow definition files. It does not run the automation, and it cannot
 tell you whether the automation is correct — only whether it breaks a rule that
